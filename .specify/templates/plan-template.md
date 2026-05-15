@@ -40,7 +40,14 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+Verify compliance with `.specify/memory/constitution.md` before proceeding:
+
+- [ ] **I. Library-First** — Is this feature implemented as a standalone library first?
+      If not, document justification below.
+- [ ] **II. Test-First (NON-NEGOTIABLE)** — Are failing tests written and approved
+      before any implementation begins? TDD Red-Green-Refactor cycle is mandatory.
+- [ ] **III. Functional Programming** — Is the design built from pure functions with
+      side effects isolated at system boundaries? Mutable state justified if used.
 
 ## Project Structure
 

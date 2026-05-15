@@ -1,0 +1,230 @@
+openapi: 3.1.0
+info:
+  title: TaskFlow API
+  version: 1.0.0
+  description: REST API for managing tasks in the TaskFlow application.
+servers:
+  - url: http://127.0.0.1:8000
+paths:
+  /health:
+    get:
+      summary: Health check
+      operationId: getHealth
+      responses:
+        '200':
+          description: Service healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    const: ok
+                required: [status]
+  /tasks:
+    get:
+      summary: List tasks
+      operationId: listTasks
+      parameters:
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Opaque cursor for the next page of results.
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          description: Maximum number of tasks to return in this batch.
+      responses:
+        '200':
+          description: Cursor-paginated ordered task list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskListPage'
+        '422':
+          description: Invalid cursor or query parameters
+    post:
+      summary: Create task
+      operationId: createTask
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskCreate'
+      responses:
+        '201':
+          description: Task created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '422':
+          description: Validation failure
+  /tasks/{taskId}:
+    parameters:
+      - name: taskId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      summary: Get task by id
+      operationId: getTask
+      responses:
+        '200':
+          description: Task details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '404':
+          description: Task not found
+    put:
+      summary: Replace task details
+      operationId: replaceTask
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskUpdate'
+      responses:
+        '200':
+          description: Task updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '404':
+          description: Task not found
+        '422':
+          description: Validation failure
+    patch:
+      summary: Partially update task
+      operationId: patchTask
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskPatch'
+      responses:
+        '200':
+          description: Task updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '404':
+          description: Task not found
+        '422':
+          description: Validation failure
+    delete:
+      summary: Delete task
+      operationId: deleteTask
+      responses:
+        '204':
+          description: Task deleted
+        '404':
+          description: Task not found
+components:
+  schemas:
+    TaskListPage:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Task'
+        next_cursor:
+          type: string
+          nullable: true
+          description: Opaque cursor for requesting the next batch; null when no more results exist.
+        has_more:
+          type: boolean
+        limit:
+          type: integer
+          minimum: 1
+          maximum: 100
+      required: [items, next_cursor, has_more, limit]
+    Task:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+          description: Plain-text title only. Render as text, never as HTML or Markdown.
+          minLength: 1
+        description:
+          type: string
+          description: Optional plain-text description with additional task details.
+          default: ''
+        status:
+          type: string
+          enum: [todo, in_progress, done]
+          description: Task progress status.
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required: [id, title, description, status, created_at, updated_at]
+    TaskCreate:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          description: Non-empty, non-whitespace title treated as plain text.
+        description:
+          type: string
+          description: Optional plain-text description.
+          default: ''
+        status:
+          type: string
+          enum: [todo, in_progress, done]
+          default: todo
+      required: [title]
+    TaskUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          description: Non-empty, non-whitespace title treated as plain text.
+        description:
+          type: string
+          description: Plain-text description (empty allowed).
+        status:
+          type: string
+          enum: [todo, in_progress, done]
+          description: Task progress status.
+      required: [title, description, status]
+    TaskPatch:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          description: Optional non-empty, non-whitespace plain-text title.
+        description:
+          type: string
+          description: Optional plain-text description.
+        status:
+          type: string
+          enum: [todo, in_progress, done]
+          description: Optional task progress status.
+      additionalProperties: false
