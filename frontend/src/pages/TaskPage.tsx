@@ -1,41 +1,38 @@
-import { useQuery } from "@tanstack/react-query";
-import { adaptTaskPage } from "../lib/task_adapter";
-import { getHealth, getTasksPage } from "../services/api";
+import TaskCreateForm from "../components/TaskCreateForm";
+import TaskList from "../components/TaskList";
+import { useCreateTaskMutation, useTasksQuery, useUpdateTaskStatusMutation } from "../services/tasks";
 
 function TaskPage() {
-  const healthQuery = useQuery({
-    queryKey: ["health"],
-    queryFn: getHealth,
-  });
-
-  const firstPageQuery = useQuery({
-    queryKey: ["tasks", "first-page"],
-    queryFn: async () => adaptTaskPage(await getTasksPage(undefined, 20)),
-  });
+  const tasksQuery = useTasksQuery();
+  const createTaskMutation = useCreateTaskMutation();
+  const updateTaskStatusMutation = useUpdateTaskStatusMutation();
 
   return (
     <main className="container">
       <h1>TaskFlow</h1>
-      <p className="subtitle">Foundation phase wired: API client, adapters, and query provider are active.</p>
+      <p className="subtitle">Create tasks and load task pages with cursor-based pagination.</p>
 
-      <section className="card">
-        <h2>Backend Health</h2>
-        <p>
-          {healthQuery.isLoading && "Checking backend..."}
-          {healthQuery.isError && "Backend is unreachable."}
-          {healthQuery.data && `Status: ${healthQuery.data.status}`}
-        </p>
-      </section>
+      <TaskCreateForm
+        onCreate={async (payload) => {
+          await createTaskMutation.mutateAsync(payload);
+        }}
+        isSubmitting={createTaskMutation.isPending}
+      />
 
-      <section className="card">
-        <h2>Task Feed Bootstrap</h2>
-        <p>
-          {firstPageQuery.isLoading && "Loading first task page..."}
-          {firstPageQuery.isError && "Unable to load tasks yet."}
-          {firstPageQuery.data &&
-            `Loaded ${firstPageQuery.data.items.length} tasks. hasMore=${String(firstPageQuery.data.hasMore)}.`}
-        </p>
-      </section>
+      {tasksQuery.isError ? <p className="error">Unable to load tasks.</p> : null}
+
+      <TaskList
+        items={tasksQuery.items}
+        canLoadMore={tasksQuery.hasMore}
+        isLoadingMore={tasksQuery.isFetchingNextPage}
+        onLoadMore={() => {
+          void tasksQuery.fetchNextPage();
+        }}
+        onStatusChange={(payload) => {
+          void updateTaskStatusMutation.mutateAsync(payload);
+        }}
+        updatingTaskId={updateTaskStatusMutation.variables?.taskId ?? null}
+      />
     </main>
   );
 }

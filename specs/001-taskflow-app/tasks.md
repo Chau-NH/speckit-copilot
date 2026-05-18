@@ -60,18 +60,18 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T013 [P] [US1] Add backend contract tests for `GET /tasks` and `POST /tasks` in `backend/tests/contract/test_tasks_list_create.py`
-- [ ] T014 [P] [US1] Add backend integration tests for task creation and cursor pagination in `backend/tests/integration/test_task_list_create_flow.py`
-- [ ] T015 [P] [US1] Add frontend integration tests for task creation form and paginated list loading in `frontend/tests/integration/task_list_create_flow.test.tsx`
+- [X] T013 [P] [US1] Add backend contract tests for `GET /tasks` and `POST /tasks` in `backend/tests/contract/test_tasks_list_create.py`
+- [X] T014 [P] [US1] Add backend integration tests for task creation and cursor pagination in `backend/tests/integration/test_task_list_create_flow.py`
+- [X] T015 [P] [US1] Add frontend integration tests for task creation form and paginated list loading in `frontend/tests/integration/task_list_create_flow.test.tsx`
 
 ### Implementation for User Story 1
 
-- [ ] T016 [US1] Implement backend list/create task service functions in `backend/src/lib/task_service.py`
-- [ ] T017 [US1] Implement `GET /tasks` and `POST /tasks` handlers with validation and cursor metadata in `backend/src/api/routes/tasks.py`
-- [ ] T018 [US1] Implement frontend task query and create-task mutation hooks in `frontend/src/services/tasks.ts`
-- [ ] T019 [US1] Implement task creation form UI in `frontend/src/components/TaskCreateForm.tsx`
-- [ ] T020 [US1] Implement paginated task list and load-more interaction in `frontend/src/components/TaskList.tsx`
-- [ ] T021 [US1] Compose Task page create/list workflow in `frontend/src/pages/TaskPage.tsx`
+- [X] T016 [US1] Implement backend list/create task service functions in `backend/src/lib/task_service.py`
+- [X] T017 [US1] Implement `GET /tasks` and `POST /tasks` handlers with validation and cursor metadata in `backend/src/api/routes/tasks.py`
+- [X] T018 [US1] Implement frontend task query and create-task mutation hooks in `frontend/src/services/tasks.ts`
+- [X] T019 [US1] Implement task creation form UI in `frontend/src/components/TaskCreateForm.tsx`
+- [X] T020 [US1] Implement paginated task list and load-more interaction in `frontend/src/components/TaskList.tsx`
+- [X] T021 [US1] Compose Task page create/list workflow in `frontend/src/pages/TaskPage.tsx`
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
 
@@ -85,16 +85,16 @@
 
 ### Tests for User Story 2 ⚠️
 
-- [ ] T022 [P] [US2] Add backend contract tests for `PATCH /tasks/{taskId}` status updates in `backend/tests/contract/test_task_status_patch.py`
-- [ ] T023 [P] [US2] Add backend integration tests for status transitions in `backend/tests/integration/test_task_status_flow.py`
-- [ ] T024 [P] [US2] Add frontend integration tests for status selector updates in `frontend/tests/integration/task_status_flow.test.tsx`
+- [X] T022 [P] [US2] Add backend contract tests for `PATCH /tasks/{taskId}` status updates in `backend/tests/contract/test_task_status_patch.py`
+- [X] T023 [P] [US2] Add backend integration tests for status transitions in `backend/tests/integration/test_task_status_flow.py`
+- [X] T024 [P] [US2] Add frontend integration tests for status selector updates in `frontend/tests/integration/task_status_flow.test.tsx`
 
 ### Implementation for User Story 2
 
-- [ ] T025 [US2] Implement backend status transition rules in `backend/src/lib/task_domain.py`
-- [ ] T026 [US2] Implement backend patch-task status update flow in `backend/src/lib/task_service.py` and `backend/src/api/routes/tasks.py`
-- [ ] T027 [US2] Implement frontend status update mutation in `frontend/src/services/tasks.ts`
-- [ ] T028 [US2] Implement task status selector and visual status state in `frontend/src/components/TaskListItem.tsx`
+- [X] T025 [US2] Implement backend status transition rules in `backend/src/lib/task_domain.py`
+- [X] T026 [US2] Implement backend patch-task status update flow in `backend/src/lib/task_service.py` and `backend/src/api/routes/tasks.py`
+- [X] T027 [US2] Implement frontend status update mutation in `frontend/src/services/tasks.ts`
+- [X] T028 [US2] Implement task status selector and visual status state in `frontend/src/components/TaskListItem.tsx`
 
 **Checkpoint**: At this point, User Stories 1 and 2 should both work independently
 
@@ -154,6 +154,7 @@
 - [ ] T044 Optimize cursor pagination queries and repository indexes in `backend/src/repositories/task_repository.py` and `backend/src/models/task.py`
 - [ ] T045 Harden plain-text rendering and invalid cursor/error handling across `backend/src/api/routes/tasks.py`, `frontend/src/components/TaskListItem.tsx`, and `frontend/src/services/tasks.ts`
 - [ ] T046 Run and document quickstart validation in `specs/001-taskflow-app/quickstart.md`
+- [X] T047 Add Alembic-based migration workflow and remove runtime SQLModel table auto-creation in `backend/migrations/`, `backend/alembic.ini`, `backend/src/repositories/db.py`, and `backend/src/main.py`
 
 ---
 

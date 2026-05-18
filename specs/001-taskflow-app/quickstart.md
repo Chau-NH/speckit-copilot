@@ -18,6 +18,11 @@ cd backend
 python -m venv .venv
 source .venv/Scripts/activate  # Windows Git Bash
 pip install -r requirements.txt
+alembic upgrade head
+# Keep frontend and backend hostnames consistent (localhost vs 127.0.0.1)
+# or configure CORS_ORIGINS explicitly for local development.
+# Example:
+# export CORS_ORIGINS="http://127.0.0.1:5173,http://localhost:5173"
 uvicorn src.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
@@ -28,6 +33,8 @@ Backend API docs should be available at `http://127.0.0.1:8000/docs`.
 ```bash
 cd frontend
 npm install
+# Match the backend host form above to avoid origin mismatch.
+# Example: VITE_API_BASE_URL=http://127.0.0.1:8000
 npm run dev -- --host 127.0.0.1 --port 5173
 ```
 

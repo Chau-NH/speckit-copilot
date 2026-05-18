@@ -47,3 +47,82 @@ p {
   margin: 0 0 10px;
   font-size: 1rem;
 }
+
+.task-form {
+  display: grid;
+  gap: 8px;
+}
+
+input,
+textarea,
+button {
+  font: inherit;
+}
+
+input,
+textarea {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 8px;
+}
+
+textarea {
+  min-height: 78px;
+  resize: vertical;
+}
+
+button {
+  width: fit-content;
+  border: 1px solid #1f2937;
+  border-radius: 6px;
+  background: #1f2937;
+  color: #ffffff;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.task-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.task-item {
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 10px;
+  background: #ffffff;
+}
+
+.task-title {
+  font-weight: 600;
+}
+
+.task-description {
+  margin-top: 4px;
+  color: #4b5563;
+}
+
+.task-status-control {
+  margin-top: 8px;
+  display: grid;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.task-status-control select {
+  width: 100%;
+}
+
+.error {
+  color: #b91c1c;
+}

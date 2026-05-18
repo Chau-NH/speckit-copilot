@@ -26,6 +26,16 @@ export type ApiTaskListPage = {
   limit: number;
 };
 
+export type ApiTaskCreateInput = {
+  title: string;
+  description?: string;
+  status?: "todo" | "in_progress" | "done";
+};
+
+export type ApiTaskPatchInput = {
+  status?: "todo" | "in_progress" | "done";
+};
+
 export type ApiHealthResponse = {
   status: "ok" | string;
 };
@@ -42,5 +52,15 @@ export async function getTasksPage(cursor?: string, limit = 20): Promise<ApiTask
       limit,
     },
   });
+  return response.data;
+}
+
+export async function createTask(payload: ApiTaskCreateInput): Promise<ApiTask> {
+  const response = await apiClient.post<ApiTask>("/tasks", payload);
+  return response.data;
+}
+
+export async function patchTask(taskId: string, payload: ApiTaskPatchInput): Promise<ApiTask> {
+  const response = await apiClient.patch<ApiTask>(`/tasks/${taskId}`, payload);
   return response.data;
 }

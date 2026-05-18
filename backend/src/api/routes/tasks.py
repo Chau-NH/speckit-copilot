@@ -6,6 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query, Response, status
 from sqlmodel import Session
 
 from src.api.schemas import TaskCreate, TaskListPage, TaskPatch, TaskRead, TaskUpdate
+from src.lib import task_service
 from src.repositories.db import get_session
 from src.repositories.task_repository import TaskRepository
 
@@ -23,7 +24,7 @@ def list_tasks(
     repo: TaskRepository = Depends(get_task_repository),
 ) -> TaskListPage:
     try:
-        tasks, next_cursor, has_more, applied_limit = repo.list_tasks(cursor=cursor, limit=limit)
+        tasks, next_cursor, has_more, applied_limit = task_service.list_tasks(repo, cursor=cursor, limit=limit)
     except ValueError as exc:
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(exc)) from exc
 
@@ -38,7 +39,12 @@ def list_tasks(
 @router.post("", response_model=TaskRead, status_code=status.HTTP_201_CREATED)
 def create_task(payload: TaskCreate, repo: TaskRepository = Depends(get_task_repository)) -> TaskRead:
     try:
-        task = repo.create_task(title=payload.title, description=payload.description, status=payload.status)
+        task = task_service.create_task(
+            repo,
+            title=payload.title,
+            description=payload.description,
+            status=payload.status,
+        )
     except ValueError as exc:
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(exc)) from exc
     return TaskRead.model_validate(task)
@@ -67,12 +73,15 @@ def replace_task(task_id: UUID, payload: TaskUpdate, repo: TaskRepository = Depe
 @router.patch("/{task_id}", response_model=TaskRead)
 def patch_task(task_id: UUID, payload: TaskPatch, repo: TaskRepository = Depends(get_task_repository)) -> TaskRead:
     try:
-        task = repo.patch_task(
-            task_id,
-            title=payload.title,
-            description=payload.description,
-            status=payload.status,
-        )
+        if payload.title is None and payload.description is None:
+            task = task_service.update_task_status(repo, task_id=task_id, status=payload.status)
+        else:
+            task = repo.patch_task(
+                task_id,
+                title=payload.title,
+                description=payload.description,
+                status=payload.status,
+            )
     except ValueError as exc:
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(exc)) from exc
 
