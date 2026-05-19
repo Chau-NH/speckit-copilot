@@ -69,7 +69,7 @@
 - [X] T016 [US1] Implement backend list/create task service functions in `backend/src/lib/task_service.py`
 - [X] T017 [US1] Implement `GET /tasks` and `POST /tasks` handlers with validation and cursor metadata in `backend/src/api/routes/tasks.py`
 - [X] T018 [US1] Implement frontend task query and create-task mutation hooks in `frontend/src/services/tasks.ts`
-- [X] T019 [US1] Implement task creation form UI in `frontend/src/components/TaskCreateForm.tsx`
+- [X] T019 [US1] Implement task creation form UI in `frontend/src/components/TaskCreateForm.tsx` — form button MUST be disabled while a creation request is in flight (FR-015)
 - [X] T020 [US1] Implement paginated task list and load-more interaction in `frontend/src/components/TaskList.tsx`
 - [X] T021 [US1] Compose Task page create/list workflow in `frontend/src/pages/TaskPage.tsx`
 
@@ -108,16 +108,16 @@
 
 ### Tests for User Story 3 ⚠️
 
-- [ ] T029 [P] [US3] Add backend contract tests for `PUT /tasks/{taskId}` detail updates in `backend/tests/contract/test_task_replace.py`
-- [ ] T030 [P] [US3] Add backend integration tests for title and description edits in `backend/tests/integration/test_task_edit_flow.py`
-- [ ] T031 [P] [US3] Add frontend integration tests for edit and cancel behavior in `frontend/tests/integration/task_edit_flow.test.tsx`
+- [X] T029 [P] [US3] Add backend contract tests for `PUT /tasks/{taskId}` detail updates in `backend/tests/contract/test_task_replace.py`
+- [X] T030 [P] [US3] Add backend integration tests for title and description edits in `backend/tests/integration/test_task_edit_flow.py`
+- [X] T031 [P] [US3] Add frontend integration tests for edit and cancel behavior in `frontend/tests/integration/task_edit_flow.test.tsx`
 
 ### Implementation for User Story 3
 
-- [ ] T032 [US3] Implement backend replace-task update flow for title and description in `backend/src/lib/task_service.py` and `backend/src/api/routes/tasks.py`
-- [ ] T033 [US3] Implement frontend edit-task mutation in `frontend/src/services/tasks.ts`
-- [ ] T034 [US3] Implement task edit form for title and description in `frontend/src/components/TaskEditForm.tsx`
-- [ ] T035 [US3] Integrate edit mode and cancel/save behavior in `frontend/src/components/TaskListItem.tsx`
+- [X] T032 [US3] Implement backend replace-task update flow for title and description in `backend/src/lib/task_service.py` and `backend/src/api/routes/tasks.py`
+- [X] T033 [US3] Implement frontend edit-task mutation in `frontend/src/services/tasks.ts`
+- [X] T034 [US3] Implement task edit form for title and description in `frontend/src/components/TaskEditForm.tsx`
+- [X] T035 [US3] Integrate edit mode and cancel/save behavior in `frontend/src/components/TaskListItem.tsx`
 
 **Checkpoint**: User Stories 1, 2, and 3 should now be independently functional
 

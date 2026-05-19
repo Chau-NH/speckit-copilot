@@ -26,7 +26,7 @@ Build a lightweight task management web app where users can create, track, edit,
 
 **Performance Goals**: CRUD API p95 < 200ms for local single-user usage; first task batch render < 1s for 100 total tasks; cursor-pagination fetches remain responsive; UI interactions < 100ms perceived latency
 
-**Constraints**: Library-first structure for domain logic, strict TDD, functional core/imperative shell pattern, task titles rendered as plain text only (no HTML/Markdown execution)
+**Constraints**: Library-first structure for domain logic, strict TDD, functional core/imperative shell pattern, task titles rendered as plain text only (no HTML/Markdown execution), create form disabled for the full duration of an in-flight creation request to prevent duplicate submissions
 
 **Scale/Scope**: Single-user local app, 0-auth, 100-500 tasks, flat list management only (no tags, filters, or multi-user sync in v1)
 

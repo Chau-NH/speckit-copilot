@@ -6,6 +6,7 @@ import TaskPage from "../../src/pages/TaskPage";
 const mockUseTasksQuery = vi.fn();
 const mockUpdateStatus = vi.fn();
 const mockCreateTask = vi.fn();
+const mockUseUpdateTaskStatusMutation = vi.fn();
 
 vi.mock("../../src/services/tasks", () => ({
   useTasksQuery: () => mockUseTasksQuery(),
@@ -13,9 +14,11 @@ vi.mock("../../src/services/tasks", () => ({
     mutateAsync: mockCreateTask,
     isPending: false,
   }),
-  useUpdateTaskStatusMutation: () => ({
-    mutateAsync: mockUpdateStatus,
+  useUpdateTaskStatusMutation: () => mockUseUpdateTaskStatusMutation(),
+  useUpdateTaskDetailsMutation: () => ({
+    mutateAsync: vi.fn(),
     isPending: false,
+    variables: undefined,
   }),
 }));
 
@@ -30,6 +33,16 @@ function renderPage() {
 
 describe("Task status flow", () => {
   beforeEach(() => {
+    mockCreateTask.mockReset();
+    mockUpdateStatus.mockReset();
+    mockUseUpdateTaskStatusMutation.mockReset();
+
+    mockUseUpdateTaskStatusMutation.mockReturnValue({
+      mutateAsync: mockUpdateStatus,
+      isPending: false,
+      variables: undefined,
+    });
+
     mockUseTasksQuery.mockReturnValue({
       items: [
         {
@@ -67,5 +80,18 @@ describe("Task status flow", () => {
     await waitFor(() => {
       expect(mockUpdateStatus).toHaveBeenCalledWith({ taskId: "task-1", status: "done" });
     });
+  });
+
+  it("keeps status selector enabled when update is no longer pending", () => {
+    mockUseUpdateTaskStatusMutation.mockReturnValue({
+      mutateAsync: mockUpdateStatus,
+      isPending: false,
+      variables: { taskId: "task-1", status: "done" },
+    });
+
+    renderPage();
+
+    const statusSelect = screen.getByLabelText("Status");
+    expect(statusSelect).toBeEnabled();
   });
 });

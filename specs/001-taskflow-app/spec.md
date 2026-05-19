@@ -41,6 +41,7 @@ features are required.
 2. **Given** the application already has tasks, **When** the user adds another task, **Then** the existing tasks remain and the new task is appended to the list.
 3. **Given** the user has not entered any text, **When** the user attempts to submit the task form, **Then** the system prevents submission and shows a validation message.
 4. **Given** tasks have been created in a previous session, **When** the user reopens the application, **Then** previously created tasks are visible and additional tasks can be loaded through cursor pagination.
+5. **Given** a task creation is in progress, **When** the user attempts to submit the form again, **Then** the submit button is disabled and no second creation request is sent until the first one completes.
 
 ---
 
@@ -106,7 +107,7 @@ delete action, and verifying the task no longer appears in the list.
 ### Edge Cases
 
 - What happens when a task title is only whitespace? — The system treats it as empty and prevents submission.
-- What happens when the user rapidly creates many tasks? — All tasks are created and displayed in order without data loss.
+- What happens when the user rapidly creates many tasks? — The create form is disabled while a task creation is in progress; the user must wait for the current request to complete before a new task can be submitted. Duplicate submissions from double-clicks or rapid keypresses are prevented.
 - What happens when the user edits and saves a task that has already been deleted in the same session (tab duplication)? — The application reconciles state gracefully without crashing.
 - What happens when the task list grows very large (100+ tasks)? — The system returns tasks in cursor-paginated batches and the UI can load additional batches without degrading responsiveness.
 - What happens when a user enters HTML or script-like content in a task title? — The title is stored and rendered as plain text, and no HTML/script is executed.
@@ -132,6 +133,7 @@ delete action, and verifying the task no longer appears in the list.
 - **FR-012**: System MUST safely encode/escape task title content on display to prevent script execution.
 - **FR-013**: System MUST allow an optional plain-text description field for each task.
 - **FR-014**: System MUST expose cursor-pagination metadata sufficient for clients to request the next batch of tasks without using page numbers.
+- **FR-015**: The task creation form MUST be disabled and non-interactive while a creation request is in flight; it MUST re-enable only after the request completes (success or error).
 
 ### Key Entities
 

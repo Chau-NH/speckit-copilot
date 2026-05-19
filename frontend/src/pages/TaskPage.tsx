@@ -1,11 +1,17 @@
 import TaskCreateForm from "../components/TaskCreateForm";
 import TaskList from "../components/TaskList";
-import { useCreateTaskMutation, useTasksQuery, useUpdateTaskStatusMutation } from "../services/tasks";
+import {
+  useCreateTaskMutation,
+  useTasksQuery,
+  useUpdateTaskDetailsMutation,
+  useUpdateTaskStatusMutation,
+} from "../services/tasks";
 
 function TaskPage() {
   const tasksQuery = useTasksQuery();
   const createTaskMutation = useCreateTaskMutation();
   const updateTaskStatusMutation = useUpdateTaskStatusMutation();
+  const updateTaskDetailsMutation = useUpdateTaskDetailsMutation();
 
   return (
     <main className="container">
@@ -31,7 +37,15 @@ function TaskPage() {
         onStatusChange={(payload) => {
           void updateTaskStatusMutation.mutateAsync(payload);
         }}
-        updatingTaskId={updateTaskStatusMutation.variables?.taskId ?? null}
+        onTaskEdit={async (payload) => {
+          await updateTaskDetailsMutation.mutateAsync(payload);
+        }}
+        updatingTaskId={
+          updateTaskStatusMutation.isPending ? (updateTaskStatusMutation.variables?.taskId ?? null) : null
+        }
+        editingTaskId={
+          updateTaskDetailsMutation.isPending ? (updateTaskDetailsMutation.variables?.taskId ?? null) : null
+        }
       />
     </main>
   );

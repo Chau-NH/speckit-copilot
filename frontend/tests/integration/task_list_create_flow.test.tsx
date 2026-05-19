@@ -3,21 +3,24 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { vi } from "vitest";
 import TaskPage from "../../src/pages/TaskPage";
 
-const mockGetTasksPage = vi.fn();
+const mockUseTasksQuery = vi.fn();
 const mockCreateTask = vi.fn();
+const mockUpdateStatus = vi.fn();
 
 vi.mock("../../src/services/tasks", () => ({
-  useTasksQuery: () => ({
-    data: mockGetTasksPage(),
-    isLoading: false,
-    isError: false,
-    hasNextPage: Boolean(mockGetTasksPage()?.nextCursor),
-    isFetchingNextPage: false,
-    fetchNextPage: vi.fn(),
-  }),
+  useTasksQuery: () => mockUseTasksQuery(),
   useCreateTaskMutation: () => ({
     mutateAsync: mockCreateTask,
     isPending: false,
+  }),
+  useUpdateTaskStatusMutation: () => ({
+    mutateAsync: mockUpdateStatus,
+    isPending: false,
+  }),
+  useUpdateTaskDetailsMutation: () => ({
+    mutateAsync: vi.fn(),
+    isPending: false,
+    variables: undefined,
   }),
 }));
 
@@ -32,7 +35,10 @@ function renderPage() {
 
 describe("Task list/create flow", () => {
   beforeEach(() => {
-    mockGetTasksPage.mockReturnValue({
+    mockCreateTask.mockReset();
+    mockUpdateStatus.mockReset();
+
+    mockUseTasksQuery.mockReturnValue({
       items: [
         {
           id: "1",
@@ -45,6 +51,10 @@ describe("Task list/create flow", () => {
       ],
       nextCursor: "next-cursor",
       hasMore: true,
+      isLoading: false,
+      isError: false,
+      isFetchingNextPage: false,
+      fetchNextPage: vi.fn(),
       limit: 20,
     });
     mockCreateTask.mockResolvedValue({

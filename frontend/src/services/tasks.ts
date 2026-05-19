@@ -1,6 +1,13 @@
 import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { adaptTask, adaptTaskPage, type Task } from "../lib/task_adapter";
-import { createTask, getTasksPage, patchTask, type ApiTaskCreateInput } from "./api";
+import {
+  createTask,
+  getTasksPage,
+  patchTask,
+  replaceTask,
+  type ApiTaskCreateInput,
+  type ApiTaskUpdateInput,
+} from "./api";
 
 const TASKS_QUERY_KEY = ["tasks"] as const;
 
@@ -55,6 +62,31 @@ export function useUpdateTaskStatusMutation() {
   return useMutation({
     mutationFn: async (payload: { taskId: string; status: Task["status"] }): Promise<Task> => {
       const updated = await patchTask(payload.taskId, { status: payload.status });
+      return adaptTask(updated);
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: TASKS_QUERY_KEY });
+    },
+  });
+}
+
+export function useUpdateTaskDetailsMutation() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (payload: {
+      taskId: string;
+      title: string;
+      description: string;
+      status: Task["status"];
+    }): Promise<Task> => {
+      const requestPayload: ApiTaskUpdateInput = {
+        title: payload.title,
+        description: payload.description,
+        status: payload.status,
+      };
+
+      const updated = await replaceTask(payload.taskId, requestPayload);
       return adaptTask(updated);
     },
     onSuccess: async () => {

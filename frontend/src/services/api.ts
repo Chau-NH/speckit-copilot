@@ -36,6 +36,12 @@ export type ApiTaskPatchInput = {
   status?: "todo" | "in_progress" | "done";
 };
 
+export type ApiTaskUpdateInput = {
+  title: string;
+  description: string;
+  status: "todo" | "in_progress" | "done";
+};
+
 export type ApiHealthResponse = {
   status: "ok" | string;
 };
@@ -62,5 +68,10 @@ export async function createTask(payload: ApiTaskCreateInput): Promise<ApiTask> 
 
 export async function patchTask(taskId: string, payload: ApiTaskPatchInput): Promise<ApiTask> {
   const response = await apiClient.patch<ApiTask>(`/tasks/${taskId}`, payload);
+  return response.data;
+}
+
+export async function replaceTask(taskId: string, payload: ApiTaskUpdateInput): Promise<ApiTask> {
+  const response = await apiClient.put<ApiTask>(`/tasks/${taskId}`, payload);
   return response.data;
 }

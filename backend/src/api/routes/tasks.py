@@ -61,7 +61,13 @@ def get_task(task_id: UUID, repo: TaskRepository = Depends(get_task_repository))
 @router.put("/{task_id}", response_model=TaskRead)
 def replace_task(task_id: UUID, payload: TaskUpdate, repo: TaskRepository = Depends(get_task_repository)) -> TaskRead:
     try:
-        task = repo.replace_task(task_id, title=payload.title, description=payload.description, status=payload.status)
+        task = task_service.replace_task_details(
+            repo,
+            task_id=task_id,
+            title=payload.title,
+            description=payload.description,
+            status=payload.status,
+        )
     except ValueError as exc:
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(exc)) from exc
 

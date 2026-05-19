@@ -7,10 +7,26 @@ type TaskListProps = {
   isLoadingMore: boolean;
   onLoadMore: () => void;
   onStatusChange: (payload: { taskId: string; status: Task["status"] }) => void;
+  onTaskEdit: (payload: {
+    taskId: string;
+    title: string;
+    description: string;
+    status: Task["status"];
+  }) => Promise<void>;
   updatingTaskId: string | null;
+  editingTaskId: string | null;
 };
 
-function TaskList({ items, canLoadMore, isLoadingMore, onLoadMore, onStatusChange, updatingTaskId }: TaskListProps) {
+function TaskList({
+  items,
+  canLoadMore,
+  isLoadingMore,
+  onLoadMore,
+  onStatusChange,
+  onTaskEdit,
+  updatingTaskId,
+  editingTaskId,
+}: TaskListProps) {
   return (
     <section className="card">
       <h2>Tasks</h2>
@@ -21,7 +37,9 @@ function TaskList({ items, canLoadMore, isLoadingMore, onLoadMore, onStatusChang
             key={task.id}
             task={task}
             onStatusChange={onStatusChange}
+            onEdit={onTaskEdit}
             isUpdating={updatingTaskId === task.id}
+            isEditing={editingTaskId === task.id}
           />
         ))}
       </ul>

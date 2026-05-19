@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from uuid import UUID
 
-from src.lib.task_domain import ensure_status_transition, parse_status
+from src.lib.task_domain import ensure_status_transition
 from src.models.task import Task
 from src.repositories.task_repository import TaskRepository
 
@@ -19,6 +19,17 @@ def create_task(
     status: str | None,
 ) -> Task:
     return repo.create_task(title=title, description=description, status=status)
+
+
+def replace_task_details(
+    repo: TaskRepository,
+    *,
+    task_id: UUID,
+    title: str,
+    description: str,
+    status: str,
+) -> Task | None:
+    return repo.replace_task(task_id, title=title, description=description, status=status)
 
 
 def update_task_status(repo: TaskRepository, *, task_id: UUID, status: str | None) -> Task | None:
