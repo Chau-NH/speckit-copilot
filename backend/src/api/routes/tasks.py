@@ -23,8 +23,16 @@ def list_tasks(
     limit: int = Query(default=20, ge=1, le=100),
     repo: TaskRepository = Depends(get_task_repository),
 ) -> TaskListPage:
+    normalized_cursor = cursor.strip() if cursor is not None else None
+    if normalized_cursor == "":
+        normalized_cursor = None
+
     try:
-        tasks, next_cursor, has_more, applied_limit = task_service.list_tasks(repo, cursor=cursor, limit=limit)
+        tasks, next_cursor, has_more, applied_limit = task_service.list_tasks(
+            repo,
+            cursor=normalized_cursor,
+            limit=limit,
+        )
     except ValueError as exc:
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(exc)) from exc
 
@@ -98,7 +106,7 @@ def patch_task(task_id: UUID, payload: TaskPatch, repo: TaskRepository = Depends
 
 @router.delete("/{task_id}", status_code=status.HTTP_204_NO_CONTENT, response_class=Response)
 def delete_task(task_id: UUID, repo: TaskRepository = Depends(get_task_repository)) -> Response:
-    removed = repo.delete_task(task_id)
+    removed = task_service.delete_task(repo, task_id=task_id)
     if not removed:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Task not found.")
     return Response(status_code=status.HTTP_204_NO_CONTENT)

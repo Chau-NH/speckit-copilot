@@ -24,6 +24,9 @@ Implementation rules:
 	- Write unit tests for all new code and ensure existing tests pass
 - Third rules
 	- Focus on security best practices (e.g. input validation, output encoding, least privilege)
+	- Follow formatting and style guidelines (e.g. Prettier, ESLint)
+- Fourth rules
+	- Update spec and plan files to reflect any changes in requirements or implementation details
 
 Always use virtual environment (Backend) for local development. Do not commit virtual environment files to the repository.
 

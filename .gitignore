@@ -34,3 +34,5 @@ backend/data/
 Thumbs.db
 .vscode/
 .idea/
+*.tmp
+*.swp

@@ -1,128 +1,32 @@
-:root {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  color: #1f2937;
-  background: #f7fafc;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply min-h-screen bg-slate-50 font-sans text-slate-900;
+    background-image:
+      radial-gradient(circle at top left, rgba(15, 23, 42, 0.08), transparent 30%),
+      radial-gradient(circle at top right, rgba(56, 189, 248, 0.12), transparent 24%),
+      linear-gradient(180deg, rgba(248, 250, 252, 1) 0%, rgba(241, 245, 249, 1) 100%);
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+
+  ::selection {
+    @apply bg-slate-900 text-white;
+  }
 }
 
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-}
-
-.container {
-  max-width: 720px;
-  margin: 48px auto;
-  padding: 24px;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-}
-
-h1 {
-  margin: 0 0 12px;
-  font-size: 2rem;
-}
-
-p {
-  margin: 0;
-}
-
-.subtitle {
-  margin-bottom: 18px;
-  color: #4b5563;
-}
-
-.card {
-  padding: 16px;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  background: #f9fafb;
-  margin-top: 12px;
-}
-
-.card h2 {
-  margin: 0 0 10px;
-  font-size: 1rem;
-}
-
-.task-form {
-  display: grid;
-  gap: 8px;
-}
-
-input,
-textarea,
-button {
-  font: inherit;
-}
-
-input,
-textarea {
-  width: 100%;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  padding: 8px;
-}
-
-textarea {
-  min-height: 78px;
-  resize: vertical;
-}
-
-button {
-  width: fit-content;
-  border: 1px solid #1f2937;
-  border-radius: 6px;
-  background: #1f2937;
-  color: #ffffff;
-  padding: 8px 12px;
-  cursor: pointer;
-}
-
-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.task-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 10px;
-}
-
-.task-item {
-  border: 1px solid #e5e7eb;
-  border-radius: 6px;
-  padding: 10px;
-  background: #ffffff;
-}
-
-.task-title {
-  font-weight: 600;
-}
-
-.task-description {
-  margin-top: 4px;
-  color: #4b5563;
-}
-
-.task-status-control {
-  margin-top: 8px;
-  display: grid;
-  gap: 6px;
-  font-size: 0.85rem;
-  color: #6b7280;
-}
-
-.task-status-control select {
-  width: 100%;
-}
-
-.error {
-  color: #b91c1c;
+@layer components {
+  .shadcn-focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2;
+  }
 }

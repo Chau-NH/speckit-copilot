@@ -20,6 +20,11 @@ vi.mock("../../src/services/tasks", () => ({
     isPending: false,
   }),
   useUpdateTaskDetailsMutation: () => mockUseUpdateTaskDetailsMutation(),
+  useDeleteTaskMutation: () => ({
+    mutateAsync: vi.fn(),
+    isPending: false,
+    variables: undefined,
+  }),
 }));
 
 function renderPage() {

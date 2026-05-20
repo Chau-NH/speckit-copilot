@@ -22,6 +22,11 @@ vi.mock("../../src/services/tasks", () => ({
     isPending: false,
     variables: undefined,
   }),
+  useDeleteTaskMutation: () => ({
+    mutateAsync: vi.fn(),
+    isPending: false,
+    variables: undefined,
+  }),
 }));
 
 function renderPage() {

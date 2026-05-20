@@ -1,7 +1,9 @@
 import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { adaptTask, adaptTaskPage, type Task } from "../lib/task_adapter";
+import { normalizeCursor } from "../lib/task_pagination";
 import {
   createTask,
+  deleteTask,
   getTasksPage,
   patchTask,
   replaceTask,
@@ -21,13 +23,13 @@ export function useTasksQuery(limit = 20) {
   const query = useInfiniteQuery({
     queryKey: TASKS_QUERY_KEY,
     initialPageParam: undefined as string | undefined,
-    queryFn: async ({ pageParam }) => adaptTaskPage(await getTasksPage(pageParam, limit)),
+    queryFn: async ({ pageParam }) => adaptTaskPage(await getTasksPage(normalizeCursor(pageParam), limit)),
     getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
   });
 
   const pages = query.data?.pages ?? [];
   const items = pages.flatMap((page) => page.items);
-  const lastPage = pages.at(-1);
+  const lastPage = pages.length > 0 ? pages[pages.length - 1] : undefined;
 
   return {
     ...query,
@@ -88,6 +90,19 @@ export function useUpdateTaskDetailsMutation() {
 
       const updated = await replaceTask(payload.taskId, requestPayload);
       return adaptTask(updated);
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: TASKS_QUERY_KEY });
+    },
+  });
+}
+
+export function useDeleteTaskMutation() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (payload: { taskId: string }): Promise<void> => {
+      await deleteTask(payload.taskId);
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: TASKS_QUERY_KEY });

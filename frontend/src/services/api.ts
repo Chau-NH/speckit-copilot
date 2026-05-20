@@ -75,3 +75,7 @@ export async function replaceTask(taskId: string, payload: ApiTaskUpdateInput): 
   const response = await apiClient.put<ApiTask>(`/tasks/${taskId}`, payload);
   return response.data;
 }
+
+export async function deleteTask(taskId: string): Promise<void> {
+  await apiClient.delete(`/tasks/${taskId}`);
+}

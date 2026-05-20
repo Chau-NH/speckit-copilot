@@ -38,10 +38,13 @@ class TaskRepository:
 
     def list_tasks(self, cursor: str | None, limit: int) -> tuple[list[Task], str | None, bool, int]:
         applied_limit = min(max(limit, 1), 100)
+        normalized_cursor = cursor.strip() if cursor is not None else None
+        if normalized_cursor == "":
+            normalized_cursor = None
 
         statement = select(Task)
-        if cursor:
-            cursor_created_at, cursor_id = self._decode_cursor(cursor)
+        if normalized_cursor:
+            cursor_created_at, cursor_id = self._decode_cursor(normalized_cursor)
             statement = statement.where(
                 or_(
                     Task.created_at < cursor_created_at,

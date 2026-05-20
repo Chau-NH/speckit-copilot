@@ -40,6 +40,26 @@ npm run dev -- --host 127.0.0.1 --port 5173
 
 Frontend should be available at `http://127.0.0.1:5173`.
 
+### Frontend UI Components (shadcn/ui)
+
+The frontend uses shadcn/ui components for improved accessibility and consistency:
+
+- **Button**: Primary, outline, destructive, ghost variants
+- **Input**: Text field with Tailwind styling
+- **Textarea**: Multi-line input with auto-height support
+- **Select**: Dropdown with Radix UI primitive and Tailwind theming
+- **Dialog**: Modal with accessible title/description
+- **Card**: Container with header, title, description, content, footer sub-components
+
+Components are located in `frontend/src/ui/` and use:
+
+- **Tailwind CSS** for utility-based styling
+- **Radix UI primitives** for accessible component behavior
+- **class-variance-authority** for component variant management
+- **lucide-react** for icons (Trash, Edit, Plus)
+
+All component props remain stable; styling changes are internal only.
+
 ## 3) Test-First Workflow
 
 Follow strict Red-Green-Refactor for each feature slice:
@@ -73,3 +93,10 @@ Use the OpenAPI contract at `specs/001-taskflow-app/contracts/openapi.yaml` as t
 - Verify task title rendering is plain text only (no executable markup).
 - Measure API CRUD p95 latency under local load and keep below 200 ms.
 - Validate UI responsiveness with at least 100 tasks in list.
+
+## 6) Validation Status
+
+Last verified on 2026-05-20 with:
+
+- Backend: `PYTHONPATH=. pytest` from `backend/` - 19 passed
+- Frontend: `npm test` from `frontend/` - 6 passed

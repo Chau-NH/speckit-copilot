@@ -39,3 +39,7 @@ def update_task_status(repo: TaskRepository, *, task_id: UUID, status: str | Non
 
     next_status = ensure_status_transition(task.status, status)
     return repo.patch_task(task_id, title=task.title, description=task.description, status=next_status)
+
+
+def delete_task(repo: TaskRepository, *, task_id: UUID) -> bool:
+    return repo.delete_task(task_id)

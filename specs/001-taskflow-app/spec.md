@@ -87,20 +87,23 @@ changing title and description, saving, and verifying updated values are shown.
 
 ### User Story 4 - Delete Tasks (Priority: P4)
 
-A user can permanently remove a task from the list. The deletion is immediate and the
-task is no longer shown after it is removed.
+A user can permanently remove a task from the list. The user is asked to confirm
+deletion before the task is removed, and the task is no longer shown after confirmed removal.
 
 **Why this priority**: Deletion is important for keeping the list clean but is the least
 critical of the four operations — the application is fully usable without it.
 
 **Independent Test**: Can be fully tested by creating a task via US1, triggering the
-delete action, and verifying the task no longer appears in the list.
+delete action, verifying the confirmation modal appears, confirming deletion, and
+verifying the task no longer appears in the list.
 
 **Acceptance Scenarios**:
 
-1. **Given** a task exists in the list, **When** the user deletes it, **Then** the task is removed from the list immediately.
-2. **Given** the only task in the list is deleted, **When** the deletion completes, **Then** the application shows an empty state message (e.g., "No tasks yet").
-3. **Given** multiple tasks exist, **When** one task is deleted, **Then** only that task is removed and all others remain unchanged.
+1. **Given** a task exists in the list, **When** the user clicks delete, **Then** a confirmation modal is shown before deletion occurs.
+2. **Given** a delete confirmation modal is open, **When** the user confirms deletion, **Then** the task is removed from the list.
+3. **Given** a delete confirmation modal is open, **When** the user cancels deletion, **Then** no task is removed and the list remains unchanged.
+4. **Given** the only task in the list is deleted after confirmation, **When** the deletion completes, **Then** the application shows an empty state message (e.g., "No tasks yet").
+5. **Given** multiple tasks exist, **When** one task is deleted after confirmation, **Then** only that task is removed and all others remain unchanged.
 
 ---
 
