@@ -4,7 +4,6 @@ __pycache__/
 .venv/
 venv/
 backend/.venv/
-frontend/.venv/
 .pytest_cache/
 
 # Node
@@ -35,3 +34,5 @@ backend/data/
 Thumbs.db
 .vscode/
 .idea/
+*.tmp
+*.swp

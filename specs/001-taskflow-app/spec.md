@@ -41,6 +41,7 @@ features are required.
 2. **Given** the application already has tasks, **When** the user adds another task, **Then** the existing tasks remain and the new task is appended to the list.
 3. **Given** the user has not entered any text, **When** the user attempts to submit the task form, **Then** the system prevents submission and shows a validation message.
 4. **Given** tasks have been created in a previous session, **When** the user reopens the application, **Then** previously created tasks are visible and additional tasks can be loaded through cursor pagination.
+5. **Given** a task creation is in progress, **When** the user attempts to submit the form again, **Then** the submit button is disabled and no second creation request is sent until the first one completes.
 
 ---
 
@@ -86,27 +87,30 @@ changing title and description, saving, and verifying updated values are shown.
 
 ### User Story 4 - Delete Tasks (Priority: P4)
 
-A user can permanently remove a task from the list. The deletion is immediate and the
-task is no longer shown after it is removed.
+A user can permanently remove a task from the list. The user is asked to confirm
+deletion before the task is removed, and the task is no longer shown after confirmed removal.
 
 **Why this priority**: Deletion is important for keeping the list clean but is the least
 critical of the four operations — the application is fully usable without it.
 
 **Independent Test**: Can be fully tested by creating a task via US1, triggering the
-delete action, and verifying the task no longer appears in the list.
+delete action, verifying the confirmation modal appears, confirming deletion, and
+verifying the task no longer appears in the list.
 
 **Acceptance Scenarios**:
 
-1. **Given** a task exists in the list, **When** the user deletes it, **Then** the task is removed from the list immediately.
-2. **Given** the only task in the list is deleted, **When** the deletion completes, **Then** the application shows an empty state message (e.g., "No tasks yet").
-3. **Given** multiple tasks exist, **When** one task is deleted, **Then** only that task is removed and all others remain unchanged.
+1. **Given** a task exists in the list, **When** the user clicks delete, **Then** a confirmation modal is shown before deletion occurs.
+2. **Given** a delete confirmation modal is open, **When** the user confirms deletion, **Then** the task is removed from the list.
+3. **Given** a delete confirmation modal is open, **When** the user cancels deletion, **Then** no task is removed and the list remains unchanged.
+4. **Given** the only task in the list is deleted after confirmation, **When** the deletion completes, **Then** the application shows an empty state message (e.g., "No tasks yet").
+5. **Given** multiple tasks exist, **When** one task is deleted after confirmation, **Then** only that task is removed and all others remain unchanged.
 
 ---
 
 ### Edge Cases
 
 - What happens when a task title is only whitespace? — The system treats it as empty and prevents submission.
-- What happens when the user rapidly creates many tasks? — All tasks are created and displayed in order without data loss.
+- What happens when the user rapidly creates many tasks? — The create form is disabled while a task creation is in progress; the user must wait for the current request to complete before a new task can be submitted. Duplicate submissions from double-clicks or rapid keypresses are prevented.
 - What happens when the user edits and saves a task that has already been deleted in the same session (tab duplication)? — The application reconciles state gracefully without crashing.
 - What happens when the task list grows very large (100+ tasks)? — The system returns tasks in cursor-paginated batches and the UI can load additional batches without degrading responsiveness.
 - What happens when a user enters HTML or script-like content in a task title? — The title is stored and rendered as plain text, and no HTML/script is executed.
@@ -132,6 +136,7 @@ delete action, and verifying the task no longer appears in the list.
 - **FR-012**: System MUST safely encode/escape task title content on display to prevent script execution.
 - **FR-013**: System MUST allow an optional plain-text description field for each task.
 - **FR-014**: System MUST expose cursor-pagination metadata sufficient for clients to request the next batch of tasks without using page numbers.
+- **FR-015**: The task creation form MUST be disabled and non-interactive while a creation request is in flight; it MUST re-enable only after the request completes (success or error).
 
 ### Key Entities
 

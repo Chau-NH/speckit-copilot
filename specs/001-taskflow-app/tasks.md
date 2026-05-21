@@ -60,18 +60,18 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T013 [P] [US1] Add backend contract tests for `GET /tasks` and `POST /tasks` in `backend/tests/contract/test_tasks_list_create.py`
-- [ ] T014 [P] [US1] Add backend integration tests for task creation and cursor pagination in `backend/tests/integration/test_task_list_create_flow.py`
-- [ ] T015 [P] [US1] Add frontend integration tests for task creation form and paginated list loading in `frontend/tests/integration/task_list_create_flow.test.tsx`
+- [X] T013 [P] [US1] Add backend contract tests for `GET /tasks` and `POST /tasks` in `backend/tests/contract/test_tasks_list_create.py`
+- [X] T014 [P] [US1] Add backend integration tests for task creation and cursor pagination in `backend/tests/integration/test_task_list_create_flow.py`
+- [X] T015 [P] [US1] Add frontend integration tests for task creation form and paginated list loading in `frontend/tests/integration/task_list_create_flow.test.tsx`
 
 ### Implementation for User Story 1
 
-- [ ] T016 [US1] Implement backend list/create task service functions in `backend/src/lib/task_service.py`
-- [ ] T017 [US1] Implement `GET /tasks` and `POST /tasks` handlers with validation and cursor metadata in `backend/src/api/routes/tasks.py`
-- [ ] T018 [US1] Implement frontend task query and create-task mutation hooks in `frontend/src/services/tasks.ts`
-- [ ] T019 [US1] Implement task creation form UI in `frontend/src/components/TaskCreateForm.tsx`
-- [ ] T020 [US1] Implement paginated task list and load-more interaction in `frontend/src/components/TaskList.tsx`
-- [ ] T021 [US1] Compose Task page create/list workflow in `frontend/src/pages/TaskPage.tsx`
+- [X] T016 [US1] Implement backend list/create task service functions in `backend/src/lib/task_service.py`
+- [X] T017 [US1] Implement `GET /tasks` and `POST /tasks` handlers with validation and cursor metadata in `backend/src/api/routes/tasks.py`
+- [X] T018 [US1] Implement frontend task query and create-task mutation hooks in `frontend/src/services/tasks.ts`
+- [X] T019 [US1] Implement task creation form UI in `frontend/src/components/TaskCreateForm.tsx` — form button MUST be disabled while a creation request is in flight (FR-015)
+- [X] T020 [US1] Implement paginated task list and load-more interaction in `frontend/src/components/TaskList.tsx`
+- [X] T021 [US1] Compose Task page create/list workflow in `frontend/src/pages/TaskPage.tsx`
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
 
@@ -85,16 +85,16 @@
 
 ### Tests for User Story 2 ⚠️
 
-- [ ] T022 [P] [US2] Add backend contract tests for `PATCH /tasks/{taskId}` status updates in `backend/tests/contract/test_task_status_patch.py`
-- [ ] T023 [P] [US2] Add backend integration tests for status transitions in `backend/tests/integration/test_task_status_flow.py`
-- [ ] T024 [P] [US2] Add frontend integration tests for status selector updates in `frontend/tests/integration/task_status_flow.test.tsx`
+- [X] T022 [P] [US2] Add backend contract tests for `PATCH /tasks/{taskId}` status updates in `backend/tests/contract/test_task_status_patch.py`
+- [X] T023 [P] [US2] Add backend integration tests for status transitions in `backend/tests/integration/test_task_status_flow.py`
+- [X] T024 [P] [US2] Add frontend integration tests for status selector updates in `frontend/tests/integration/task_status_flow.test.tsx`
 
 ### Implementation for User Story 2
 
-- [ ] T025 [US2] Implement backend status transition rules in `backend/src/lib/task_domain.py`
-- [ ] T026 [US2] Implement backend patch-task status update flow in `backend/src/lib/task_service.py` and `backend/src/api/routes/tasks.py`
-- [ ] T027 [US2] Implement frontend status update mutation in `frontend/src/services/tasks.ts`
-- [ ] T028 [US2] Implement task status selector and visual status state in `frontend/src/components/TaskListItem.tsx`
+- [X] T025 [US2] Implement backend status transition rules in `backend/src/lib/task_domain.py`
+- [X] T026 [US2] Implement backend patch-task status update flow in `backend/src/lib/task_service.py` and `backend/src/api/routes/tasks.py`
+- [X] T027 [US2] Implement frontend status update mutation in `frontend/src/services/tasks.ts`
+- [X] T028 [US2] Implement task status selector and visual status state in `frontend/src/components/TaskListItem.tsx`
 
 **Checkpoint**: At this point, User Stories 1 and 2 should both work independently
 
@@ -108,16 +108,16 @@
 
 ### Tests for User Story 3 ⚠️
 
-- [ ] T029 [P] [US3] Add backend contract tests for `PUT /tasks/{taskId}` detail updates in `backend/tests/contract/test_task_replace.py`
-- [ ] T030 [P] [US3] Add backend integration tests for title and description edits in `backend/tests/integration/test_task_edit_flow.py`
-- [ ] T031 [P] [US3] Add frontend integration tests for edit and cancel behavior in `frontend/tests/integration/task_edit_flow.test.tsx`
+- [X] T029 [P] [US3] Add backend contract tests for `PUT /tasks/{taskId}` detail updates in `backend/tests/contract/test_task_replace.py`
+- [X] T030 [P] [US3] Add backend integration tests for title and description edits in `backend/tests/integration/test_task_edit_flow.py`
+- [X] T031 [P] [US3] Add frontend integration tests for edit and cancel behavior in `frontend/tests/integration/task_edit_flow.test.tsx`
 
 ### Implementation for User Story 3
 
-- [ ] T032 [US3] Implement backend replace-task update flow for title and description in `backend/src/lib/task_service.py` and `backend/src/api/routes/tasks.py`
-- [ ] T033 [US3] Implement frontend edit-task mutation in `frontend/src/services/tasks.ts`
-- [ ] T034 [US3] Implement task edit form for title and description in `frontend/src/components/TaskEditForm.tsx`
-- [ ] T035 [US3] Integrate edit mode and cancel/save behavior in `frontend/src/components/TaskListItem.tsx`
+- [X] T032 [US3] Implement backend replace-task update flow for title and description in `backend/src/lib/task_service.py` and `backend/src/api/routes/tasks.py`
+- [X] T033 [US3] Implement frontend edit-task mutation in `frontend/src/services/tasks.ts`
+- [X] T034 [US3] Implement task edit form for title and description in `frontend/src/components/TaskEditForm.tsx`
+- [X] T035 [US3] Integrate edit mode and cancel/save behavior in `frontend/src/components/TaskListItem.tsx`
 
 **Checkpoint**: User Stories 1, 2, and 3 should now be independently functional
 
@@ -125,21 +125,21 @@
 
 ## Phase 6: User Story 4 - Delete Tasks (Priority: P4)
 
-**Goal**: Allow users to remove tasks from the list and preserve correct pagination and empty-state behavior.
+**Goal**: Allow users to remove tasks from the list with a delete confirmation modal, while preserving correct pagination and empty-state behavior.
 
-**Independent Test**: Create multiple tasks from US1, delete one task and verify only that task is removed, then delete the last remaining task and verify the empty state appears.
+**Independent Test**: Create multiple tasks from US1, click delete and verify a confirmation modal appears, confirm deletion and verify only that task is removed, then delete the last remaining task and verify the empty state appears.
 
 ### Tests for User Story 4 ⚠️
 
-- [ ] T036 [P] [US4] Add backend contract tests for `DELETE /tasks/{taskId}` in `backend/tests/contract/test_task_delete.py`
-- [ ] T037 [P] [US4] Add backend integration tests for delete and empty-state data behavior in `backend/tests/integration/test_task_delete_flow.py`
-- [ ] T038 [P] [US4] Add frontend integration tests for delete interaction and empty state in `frontend/tests/integration/task_delete_flow.test.tsx`
+- [X] T036 [P] [US4] Add backend contract tests for `DELETE /tasks/{taskId}` in `backend/tests/contract/test_task_delete.py`
+- [X] T037 [P] [US4] Add backend integration tests for delete and empty-state data behavior in `backend/tests/integration/test_task_delete_flow.py`
+- [X] T038 [P] [US4] Add frontend integration tests for delete confirmation modal interaction, confirmed/canceled delete paths, and empty state in `frontend/tests/integration/task_delete_flow.test.tsx`
 
 ### Implementation for User Story 4
 
-- [ ] T039 [US4] Implement backend delete-task flow in `backend/src/lib/task_service.py` and `backend/src/api/routes/tasks.py`
-- [ ] T040 [US4] Implement frontend delete-task mutation in `frontend/src/services/tasks.ts`
-- [ ] T041 [US4] Implement delete action and empty-state rendering in `frontend/src/components/TaskListItem.tsx` and `frontend/src/components/TaskList.tsx`
+- [X] T039 [US4] Implement backend delete-task flow in `backend/src/lib/task_service.py` and `backend/src/api/routes/tasks.py`
+- [X] T040 [US4] Implement frontend delete-task mutation in `frontend/src/services/tasks.ts`
+- [X] T041 [US4] Implement delete confirmation modal workflow (open, confirm, cancel), delete action, and empty-state rendering in `frontend/src/components/TaskListItem.tsx` and `frontend/src/components/TaskList.tsx`
 
 **Checkpoint**: All user stories should now be independently functional
 
@@ -149,11 +149,12 @@
 
 **Purpose**: Improve quality, documentation, performance, and cross-story robustness.
 
-- [ ] T042 [P] Add backend unit tests for domain validation and cursor helpers in `backend/tests/unit/test_task_domain.py` and `backend/tests/unit/test_cursor_pagination.py`
-- [ ] T043 [P] Add frontend unit tests for task adapter and pagination helpers in `frontend/tests/unit/task_adapter.test.ts` and `frontend/tests/unit/task_pagination.test.ts`
-- [ ] T044 Optimize cursor pagination queries and repository indexes in `backend/src/repositories/task_repository.py` and `backend/src/models/task.py`
-- [ ] T045 Harden plain-text rendering and invalid cursor/error handling across `backend/src/api/routes/tasks.py`, `frontend/src/components/TaskListItem.tsx`, and `frontend/src/services/tasks.ts`
-- [ ] T046 Run and document quickstart validation in `specs/001-taskflow-app/quickstart.md`
+- [X] T042 [P] Add backend unit tests for domain validation and cursor helpers in `backend/tests/unit/test_task_domain.py` and `backend/tests/unit/test_cursor_pagination.py`
+- [X] T043 [P] Add frontend unit tests for task adapter and pagination helpers in `frontend/tests/unit/task_adapter.test.ts` and `frontend/tests/unit/task_pagination.test.ts`
+- [X] T044 Optimize cursor pagination queries and repository indexes in `backend/src/repositories/task_repository.py` and `backend/src/models/task.py`
+- [X] T045 Harden plain-text rendering and invalid cursor/error handling across `backend/src/api/routes/tasks.py`, `frontend/src/components/TaskListItem.tsx`, and `frontend/src/services/tasks.ts`
+- [X] T046 Run and document quickstart validation in `specs/001-taskflow-app/quickstart.md`
+- [X] T047 Add Alembic-based migration workflow and remove runtime SQLModel table auto-creation in `backend/migrations/`, `backend/alembic.ini`, `backend/src/repositories/db.py`, and `backend/src/main.py`
 
 ---
 
@@ -244,6 +245,46 @@ Task: "Create frontend application shell and query provider wiring in frontend/s
 
 ---
 
+## Phase 8: UI Refactor with shadcn/ui (Enhancement)
+
+**Purpose**: Upgrade frontend UI components to shadcn/ui for improved accessibility, composability, and visual polish.
+
+**Gate**: Optional phase; only proceed if Phases 1-7 are complete and all tests pass. No breaking changes to existing APIs or tests.
+
+### Prerequisites
+
+- All existing tests pass (from Phase 7)
+- Tailwind CSS already configured in `frontend/`
+- Vite and React 18 setup complete
+
+### Setup Tasks
+
+- [X] T048 Initialize shadcn/ui in frontend project via `npx shadcn-ui@latest init` with Vite preset in `frontend/src/ui/`
+- [X] T049 Add shadcn/ui dependencies to `frontend/package.json` (Radix UI, class-variance-authority, clsx, lucide-react for icons)
+
+### Component Refactor Tasks
+
+- [X] T050 [P] Refactor `TaskCreateForm.tsx` to use shadcn/ui Button and Input components for title/description fields
+- [X] T051 [P] Refactor task status selector in `TaskListItem.tsx` to use shadcn/ui Select component
+- [X] T052 [P] Refactor delete confirmation dialog in `TaskListItem.tsx` to use shadcn/ui Dialog component
+- [X] T053 [P] Refactor `TaskList.tsx` container to use shadcn/ui Card component for task list section
+- [X] T054 Add shadcn/ui icons (Trash, Edit, Plus) to buttons in `TaskListItem.tsx` and `TaskCreateForm.tsx`
+- [X] T055 Update `styles.css` to integrate shadcn/ui Tailwind preset; remove custom CSS for refactored components
+
+### Validation
+
+- [X] T056 Run full test suite to confirm all 11+ integration tests still pass after UI refactor
+- [X] T057 [P] Update frontend quickstart documentation in `specs/001-taskflow-app/quickstart.md` to mention shadcn/ui setup
+
+### Scope Notes
+
+- No changes to `src/lib/`, `src/services/`, or test files
+- All component props and callback signatures remain unchanged
+- Final bundle size impact should be minimal or null (tree-shaking removes unused components)
+- No new runtime dependencies on state management or style libraries
+
+---
+
 ## Notes
 
 - `[P]` tasks operate on separate files and have no unmet dependencies
@@ -251,3 +292,4 @@ Task: "Create frontend application shell and query provider wiring in frontend/s
 - Cursor pagination is part of the MVP, not a polish item
 - Plain-text rendering and validation rules must remain enforced across all stories
 - Commit after each task or logical task group once tests are passing
+- Phase 8 is optional; Phase 7 delivers the complete, working feature
