@@ -63,6 +63,7 @@
 - [X] T013 [P] [US1] Add backend contract tests for `GET /tasks` and `POST /tasks` in `backend/tests/contract/test_tasks_list_create.py`
 - [X] T014 [P] [US1] Add backend integration tests for task creation and cursor pagination in `backend/tests/integration/test_task_list_create_flow.py`
 - [X] T015 [P] [US1] Add frontend integration tests for task creation form and paginated list loading in `frontend/tests/integration/task_list_create_flow.test.tsx`
+- [X] T015A [US1] Review and approve failing US1 test coverage before implementation
 
 ### Implementation for User Story 1
 
@@ -88,6 +89,7 @@
 - [X] T022 [P] [US2] Add backend contract tests for `PATCH /tasks/{taskId}` status updates in `backend/tests/contract/test_task_status_patch.py`
 - [X] T023 [P] [US2] Add backend integration tests for status transitions in `backend/tests/integration/test_task_status_flow.py`
 - [X] T024 [P] [US2] Add frontend integration tests for status selector updates in `frontend/tests/integration/task_status_flow.test.tsx`
+- [X] T024A [US2] Review and approve failing US2 test coverage before implementation
 
 ### Implementation for User Story 2
 
@@ -111,6 +113,7 @@
 - [X] T029 [P] [US3] Add backend contract tests for `PUT /tasks/{taskId}` detail updates in `backend/tests/contract/test_task_replace.py`
 - [X] T030 [P] [US3] Add backend integration tests for title and description edits in `backend/tests/integration/test_task_edit_flow.py`
 - [X] T031 [P] [US3] Add frontend integration tests for edit and cancel behavior in `frontend/tests/integration/task_edit_flow.test.tsx`
+- [X] T031A [US3] Review and approve failing US3 test coverage before implementation
 
 ### Implementation for User Story 3
 
@@ -134,6 +137,7 @@
 - [X] T036 [P] [US4] Add backend contract tests for `DELETE /tasks/{taskId}` in `backend/tests/contract/test_task_delete.py`
 - [X] T037 [P] [US4] Add backend integration tests for delete and empty-state data behavior in `backend/tests/integration/test_task_delete_flow.py`
 - [X] T038 [P] [US4] Add frontend integration tests for delete confirmation modal interaction, confirmed/canceled delete paths, and empty state in `frontend/tests/integration/task_delete_flow.test.tsx`
+- [X] T038A [US4] Review and approve failing US4 test coverage before implementation
 
 ### Implementation for User Story 4
 
@@ -176,7 +180,7 @@
 
 ### Within Each User Story
 
-- Tests MUST be written and FAIL before implementation
+- Tests MUST be written first, verified to fail, and approved before implementation begins
 - Backend domain/service changes before API handlers
 - API and client services before UI components
 - Story integration before moving to the next priority

@@ -8,7 +8,7 @@
 
 ## Summary
 
-Build a lightweight task management web app where users can create, track, edit, and delete tasks with persistent storage across reloads. Architecture uses a React frontend consuming a FastAPI REST backend backed by SQLite, with security hardening for plain-text task title rendering and cursor-paginated task listing for smooth operation at 100+ tasks.
+Build a lightweight task management web app where users can create, track, edit, and delete tasks with persistent storage across reloads. Architecture uses a React frontend consuming a FastAPI REST backend backed by SQLite on the local machine, with security hardening for plain-text task title rendering and cursor-paginated task listing for 100+ tasks.
 
 ## Technical Context
 
@@ -24,7 +24,7 @@ Build a lightweight task management web app where users can create, track, edit,
 
 **Project Type**: Web application (`frontend` + `backend`)
 
-**Performance Goals**: CRUD API p95 < 200ms for local single-user usage; first task batch render < 1s for 100 total tasks; cursor-pagination fetches remain responsive; UI interactions < 100ms perceived latency. shadcn/ui tree-shaking ensures no increase in bundle size for unused components.
+**Performance Goals**: CRUD API p95 < 200ms for local single-user usage; first task batch render < 1s for 100 total tasks; additional cursor-pagination fetches complete within 500 ms in local development; UI interactions < 100ms perceived latency. shadcn/ui tree-shaking ensures no increase in bundle size for unused components.
 
 **Constraints**: Library-first structure for domain logic, strict TDD, functional core/imperative shell pattern, task titles rendered as plain text only (no HTML/Markdown execution), create form disabled for the full duration of an in-flight creation request to prevent duplicate submissions. UI components use shadcn/ui composable patterns; styling via Tailwind CSS; no custom CSS files except globals.
 
@@ -38,8 +38,8 @@ Verify compliance with `.specify/memory/constitution.md` before proceeding:
 
 - [x] **I. Library-First** — Domain behavior will be implemented first in standalone libraries:
       `backend/src/lib/task_domain.py` and `frontend/src/lib/task_adapter.ts` before wiring API/UI.
-- [x] **II. Test-First (NON-NEGOTIABLE)** — Implementation tasks will enforce Red-Green-Refactor with failing tests before feature code in both frontend and backend.
-- [x] **III. Functional Programming** — Domain logic modeled as pure functions over immutable task objects; side effects isolated to API handlers, database repository, and browser storage boundaries.
+- [x] **II. Test-First (NON-NEGOTIABLE)** — Implementation tasks will enforce Red-Green-Refactor with failing tests reviewed and approved before feature code in both frontend and backend.
+- [x] **III. Functional Programming** — Domain logic modeled as pure functions over immutable task objects; side effects isolated to API handlers, database repository, and frontend service/UI boundaries.
 
 **Gate Result (Pre-Research)**: PASS
 
@@ -88,7 +88,7 @@ frontend/
 ## Post-Design Constitution Check
 
 - [x] I. Library-First maintained in planned module boundaries and contract-first API design
-- [x] II. Test-First reflected in quickstart and implementation order
+- [x] II. Test-First reflected in quickstart, implementation order, and test approval gates
 - [x] III. Functional Programming reflected in data model and operation design
 
 **Gate Result (Post-Design)**: PASS
