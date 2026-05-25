@@ -17,9 +17,9 @@
 
 **Purpose**: Prepare the frontend routing shell and shared feature scaffolding
 
-- [ ] T001 [P] Add React Router DOM dependency and browser-router entrypoint in frontend/package.json, frontend/src/main.tsx, and frontend/src/App.tsx
-- [ ] T002 [P] Create dedicated task page stubs for list, detail, create, and edit flows in frontend/src/pages/TaskPage.tsx, frontend/src/pages/TaskDetailPage.tsx, frontend/src/pages/TaskCreatePage.tsx, and frontend/src/pages/TaskEditPage.tsx
-- [ ] T003 [P] Add backend feature module stubs for comments and hierarchy support in backend/src/models/comment.py, backend/src/repositories/comment_repository.py, backend/src/lib/comment_service.py, and backend/src/api/routes/comments.py
+- [x] T001 [P] Add React Router DOM dependency and browser-router entrypoint in frontend/package.json, frontend/src/main.tsx, and frontend/src/App.tsx
+- [x] T002 [P] Create dedicated task page stubs for list, detail, create, and edit flows in frontend/src/pages/TaskPage.tsx, frontend/src/pages/TaskDetailPage.tsx, frontend/src/pages/TaskCreatePage.tsx, and frontend/src/pages/TaskEditPage.tsx
+- [x] T003 [P] Add backend feature module stubs for comments and hierarchy support in backend/src/models/comment.py, backend/src/repositories/comment_repository.py, backend/src/lib/comment_service.py, and backend/src/api/routes/comments.py
 
 ---
 
@@ -143,6 +143,32 @@
 ---
 
 ## Dependencies & Execution Order
+
+## Task-Order Correction Plan (2026-05-25)
+
+**Purpose**: Restore strict Test-First execution order for all remaining unchecked work while preserving completed Phase 1 scaffolding.
+
+### Immediate Enforcement
+
+1. Treat T001-T003 as completed scaffolding only; do not add new feature behavior before foundational red-test gates pass.
+2. Complete failing foundational tests in this exact order: T004 -> T005 -> T006.
+3. Treat T007 as a hard stop gate that must be approved before T008-T010 may begin.
+4. For every user story, complete test tasks first, then approval gate, then implementation tasks.
+5. Do not start any unchecked implementation task unless corresponding failing tests exist and are verified red.
+
+### Corrected Near-Term Sequence
+
+1. T004
+2. T005
+3. T006
+4. T007
+5. T008
+6. T009
+7. T010
+
+### Compliance Gate Requirement
+
+- Before each implementation block (T008-T010, T014+, T020+, T024+, T031+), record evidence that failing tests were written, reviewed, and observed failing.
 
 ### Phase Dependencies
 

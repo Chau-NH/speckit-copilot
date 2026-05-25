@@ -46,7 +46,7 @@ A user can mark a main task as done only after all of its subtasks are done. If 
 **Acceptance Scenarios**:
 
 1. **Given** a main task has at least one incomplete subtask, **When** the user tries to mark the main task as done, **Then** the system blocks the action and explains why.
-2. **Given** all subtasks of a main task are done, **When** the user marks the main task as done, **Then** the status change is accepted.
+2. **Given** all subtasks of a main task are done, or the main task has no subtasks, **When** the user marks the main task as done, **Then** the status change is accepted.
 3. **Given** a main task is done, **When** the user tries to add a new subtask, **Then** the system blocks the action.
 4. **Given** a main task is done, **When** the user tries to change any existing subtask status, **Then** the system blocks the action.
 5. **Given** a main task is done, **When** the user tries to edit or delete any existing subtask, **Then** the system blocks the action.
@@ -107,8 +107,7 @@ A user can add, edit, and delete comments on any task to capture context, update
 - **FR-002**: A main task MUST support zero, one, or many subtasks.
 - **FR-003**: Each subtask MUST be associated with exactly one main task.
 - **FR-004**: Users MUST be able to view subtasks grouped under their main task.
-- **FR-005**: The system MUST prevent marking a main task as done if any of its subtasks are not done.
-- **FR-006**: The system MUST allow marking a main task as done only when all of its subtasks are done, or when no subtasks exist.
+- **FR-005**: The system MUST allow marking a main task as done only when all of its subtasks are done, or when no subtasks exist.
 - **FR-007**: Once a main task is marked as done, the system MUST prevent adding new subtasks to that main task.
 - **FR-008**: Once a main task is marked as done, the system MUST prevent all subtask mutations, including status changes, content edits, and deletions.
 - **FR-009**: The task creation experience MUST be provided on a dedicated create page.
@@ -120,7 +119,7 @@ A user can add, edit, and delete comments on any task to capture context, update
 - **FR-015**: The system MUST display comments for each task in oldest-first order by default.
 - **FR-016**: The system MUST persist task hierarchy, statuses, and comments across page reloads.
 - **FR-017**: When an action is blocked by completion rules, the system MUST provide a clear user-facing explanation.
-- **FR-018**: Once a main task is done, updates to main-task fields and comment lifecycle operations remain allowed unless blocked by a separate rule.
+- **FR-018**: Once a main task is done, updates to the main task itself and comment lifecycle operations remain allowed; the done state only blocks subtask creation, status changes, edits, and deletions.
 - **FR-019**: The system MUST provide a feature that allows switching comment order to newest-first.
 - **FR-020**: The selected comment-order mode MUST be remembered per user/device as a local preference and applied on subsequent page loads.
 
