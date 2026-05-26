@@ -3,6 +3,8 @@
 
 Follow Spec-Driven Development.
 
+Current plan: specs/002-add-subtasks-comments/plan.md
+
 Before implementing:
 1. Read spec.md
 2. Read plan.md

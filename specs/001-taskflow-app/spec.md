@@ -4,7 +4,7 @@
 
 **Created**: 2026-05-14
 
-**Status**: Draft
+**Status**: Implemented
 
 **Input**: User description: "Build a TaskFlow application is a lightweight task management web application. Users can create, complete, edit, and delete tasks."
 
@@ -132,10 +132,10 @@ verifying the task no longer appears in the list.
 - **FR-008**: System MUST prevent saving an edited task title that is empty or whitespace-only.
 - **FR-009**: System MUST persist all tasks, including status and description, across page reloads.
 - **FR-010**: System MUST display an appropriate empty state when no tasks exist.
-- **FR-011**: System MUST treat task titles as plain text only and MUST NOT render task titles as HTML or markdown.
-- **FR-012**: System MUST safely encode/escape task title content on display to prevent script execution.
+- **FR-011**: The system MUST store and render task titles as plain text only and MUST NOT interpret task titles as HTML or markdown.
+- **FR-012**: The system MUST safely encode task title content at display boundaries so user-provided input cannot execute scripts in the UI.
 - **FR-013**: System MUST allow an optional plain-text description field for each task.
-- **FR-014**: System MUST expose cursor-pagination metadata sufficient for clients to request the next batch of tasks without using page numbers.
+- **FR-014**: System MUST expose cursor-pagination metadata, including `next_cursor` and `has_more`, sufficient for clients to request the next batch of tasks without using page numbers.
 - **FR-015**: The task creation form MUST be disabled and non-interactive while a creation request is in flight; it MUST re-enable only after the request completes (success or error).
 
 ### Key Entities
@@ -149,13 +149,13 @@ verifying the task no longer appears in the list.
 - **SC-001**: A user can create a new task in under 30 seconds from first opening the application.
 - **SC-002**: A user can update status, edit details, or delete a task within 2 interactions (clicks or keypresses) from the main task list view.
 - **SC-003**: All tasks, statuses, and descriptions are preserved after a full page reload, with zero data loss.
-- **SC-004**: The application correctly handles a list of 100 tasks by loading tasks in cursor-paginated batches without visible slowdown or rendering errors.
+- **SC-004**: The application correctly handles a list of 100 tasks by loading cursor-paginated batches where the first batch renders in under 1 second in local development and additional batch fetches complete within 500 ms without rendering errors.
 - **SC-005**: 90% of first-time users can successfully add and complete a task without any instructions.
 
 ## Assumptions
 
 - Single-user application: no authentication, accounts, or multi-user data separation in v1.
-- Tasks are persisted locally in the user's browser; no server-side storage or synchronisation is in scope for v1.
-- Only the task title is captured; due dates, priorities, tags, and descriptions are out of scope for v1.
+- Tasks are persisted on the local machine through the backend service using a SQLite database. No remote sync, multi-user storage, or cloud persistence is in scope for v1.
+- Tasks include a required title and an optional plain-text description. Due dates, priorities, and tags are out of scope for v1.
 - The application targets modern desktop browsers; mobile responsiveness is a nice-to-have but not a v1 requirement.
 - Tasks are displayed in a single flat list with cursor-based incremental loading; categories, filters, and sorting are out of scope for v1.

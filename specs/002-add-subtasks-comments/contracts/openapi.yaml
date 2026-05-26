@@ -1,0 +1,350 @@
+openapi: 3.1.0
+info:
+  title: TaskFlow API
+  version: 2.0.0
+  description: REST API for task hierarchies, subtasks, and comments in TaskFlow.
+servers:
+  - url: http://127.0.0.1:8000
+paths:
+  /health:
+    get:
+      summary: Health check
+      responses:
+        '200':
+          description: Service healthy
+  /tasks:
+    get:
+      summary: List main tasks
+      description: Intentionally returns top-level tasks only for hierarchy navigation. Subtasks are retrieved through task detail responses.
+      parameters:
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses:
+        '200':
+          description: Cursor-paginated top-level task list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskListPage'
+    post:
+      summary: Create main task
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskCreate'
+      responses:
+        '201':
+          description: Main task created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskDetail'
+  /tasks/{taskId}:
+    parameters:
+      - name: taskId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    get:
+      summary: Get task detail
+      responses:
+        '200':
+          description: Task detail with subtasks and comments
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskDetail'
+        '404':
+          description: Task not found
+    put:
+      summary: Replace task details
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskUpdate'
+      responses:
+        '200':
+          description: Task updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskDetail'
+    patch:
+      summary: Partially update task
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskPatch'
+      responses:
+        '200':
+          description: Task updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskDetail'
+    delete:
+      summary: Delete task
+      responses:
+        '204':
+          description: Task deleted
+  /tasks/{taskId}/subtasks:
+    post:
+      summary: Create subtask under a main task
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubtaskCreate'
+      responses:
+        '201':
+          description: Subtask created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskDetail'
+  /tasks/{taskId}/comments:
+    get:
+      summary: List comments for a task
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: order
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [oldest_first, newest_first]
+            default: oldest_first
+      responses:
+        '200':
+          description: Ordered comments for the task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommentListPage'
+    post:
+      summary: Create comment for a task
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentCreate'
+      responses:
+        '201':
+          description: Comment created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+  /comments/{commentId}:
+    parameters:
+      - name: commentId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    put:
+      summary: Update comment text
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentUpdate'
+      responses:
+        '200':
+          description: Comment updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+    delete:
+      summary: Delete comment
+      responses:
+        '204':
+          description: Comment deleted
+components:
+  schemas:
+    TaskListPage:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaskListItem'
+        next_cursor:
+          type: string
+          nullable: true
+        has_more:
+          type: boolean
+        limit:
+          type: integer
+      required: [items, next_cursor, has_more, limit]
+    TaskListItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        parent_task_id:
+          type: string
+          format: uuid
+          nullable: true
+        title:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum: [todo, in_progress, done]
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required: [id, parent_task_id, title, description, status, created_at, updated_at]
+    TaskDetail:
+      allOf:
+        - $ref: '#/components/schemas/TaskListItem'
+        - type: object
+          properties:
+            subtasks:
+              type: array
+              items:
+                $ref: '#/components/schemas/TaskListItem'
+            comments:
+              type: array
+              items:
+                $ref: '#/components/schemas/Comment'
+    TaskCreate:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+        description:
+          type: string
+          default: ''
+        status:
+          type: string
+          enum: [todo, in_progress, done]
+          default: todo
+      required: [title]
+    TaskUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+        description:
+          type: string
+        status:
+          type: string
+          enum: [todo, in_progress, done]
+      required: [title, description, status]
+    TaskPatch:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+        description:
+          type: string
+        status:
+          type: string
+          enum: [todo, in_progress, done]
+      additionalProperties: false
+    SubtaskCreate:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+        description:
+          type: string
+          default: ''
+      required: [title]
+    CommentListPage:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment'
+        order:
+          type: string
+          enum: [oldest_first, newest_first]
+      required: [items, order]
+    CommentCreate:
+      type: object
+      properties:
+        body:
+          type: string
+          minLength: 1
+      required: [body]
+    CommentUpdate:
+      type: object
+      properties:
+        body:
+          type: string
+          minLength: 1
+      required: [body]
+    Comment:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        task_id:
+          type: string
+          format: uuid
+        body:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required: [id, task_id, body, created_at, updated_at]
